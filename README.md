@@ -74,7 +74,7 @@ The table below demonstrates the superiority of STL-based rewards in maintaining
 > *[Developer Note: Replace the src paths below with the actual paths to your video files once uploaded to the repository]*
 
 **Trot Gait ($v_{x} = 1.3$ m/s)**
-
+<img src="assets/quadruped%20model.png" width="600" alt="Barkour Quadruped Model">
 <video src="assets/trot.mp4" controls autoplay loop muted width="100%"></video>
 
 The robot maintains strict diagonal phase coordination as defined by the active STL template[cite: 1].
