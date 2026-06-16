@@ -210,12 +210,4 @@ Benchmark comparison across commanded forward velocities. Each entry reports mea
 
 ---
 
-## 📝 Citation
-
-```bibtex
-@inproceedings{anonymous2026learning,
-  title={Learning Gait-Aware Quadruped Locomotion with Temporal Logic Specifications},
-  author={Anonymous Author(s)},
-  booktitle={Submitted to the 10th Conference on Robot Learning (CoRL)},
-  year={2026}
-}
+##   Citation
