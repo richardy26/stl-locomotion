@@ -18,7 +18,7 @@ Reinforcement learning (RL) for quadruped locomotion commonly relies on fixed, h
 
 ---
 
-##  Introduction & Motivation
+##  Introduction
 
 Classical model-based control approaches, such as differential dynamic programming (DDP) and model predictive control (MPC), enable impressive behaviors but rely on accurate system models and complex cost functions. Deep RL pipelines address command tracking and stability through engineered rewards, curriculum learning, and domain randomization, but these rewards are often difficult to interpret and provide indirect control over specific contact-sequence structures. 
 
