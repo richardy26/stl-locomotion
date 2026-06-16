@@ -18,15 +18,15 @@ Reinforcement learning (RL) for quadruped locomotion commonly relies on fixed, h
 
 ---
 
-##  Introduction
+## Introduction
 
 Classical model-based control approaches, such as differential dynamic programming (DDP) and model predictive control (MPC), enable impressive behaviors but rely on accurate system models and complex cost functions. Deep RL pipelines address command tracking and stability through engineered rewards, curriculum learning, and domain randomization, but these rewards are often difficult to interpret and provide indirect control over specific contact-sequence structures. 
 
-Our framework addresses multi-gait locomotion (walking-trot $\rightarrow$ trot $\rightarrow$ bound) by encoding desired behaviors as logical specifications. Rather than loosely coupled rewards, we utilize mode-conditioned Signal Temporal Logic (STL) templates to smoothly handle speed-dependent gait transitions and provide specification-level feedback for debugging multi-gait policies.
+Our framework addresses multi-gait locomotion (walking-trot → trot → bound) by encoding desired behaviors as logical specifications. Rather than loosely coupled rewards, we utilize mode-conditioned Signal Temporal Logic (STL) templates to smoothly handle speed-dependent gait transitions and provide specification-level feedback for debugging multi-gait policies.
 
 ---
 
-##   Methodology
+## Methodology
 
 Our framework combines interpretable specification-based design with the scalability of deep RL. The reward component corresponds directly to human-readable requirements.
 
@@ -47,13 +47,13 @@ The final reward is derived from the quantitative robustness of the active speci
 
 ---
 
-##   Experimental Results
+## Experimental Results
 
 The locomotion controller is trained using PPO within MuJoCo XLA (MJX), utilizing domain randomization over friction and actuator parameters to robustify the learned policies. 
 
 ### Velocity Tracking & Stability
 
-Benchmark comparison across commanded forward velocities. Each entry reports mean $\pm$ standard deviation over 20 rollouts. Lower CoT is better; higher survival and success are better. Success means the average post-warmup forward speed stays within 15% of the commanded speed.
+Benchmark comparison across commanded forward velocities. Each entry reports mean &plusmn; standard deviation over 20 rollouts. Lower CoT is better; higher survival and success are better. Success means the average post-warmup forward speed stays within 15% of the commanded speed.
 
 <table>
   <thead>
@@ -194,9 +194,7 @@ Benchmark comparison across commanded forward velocities. Each entry reports mea
 
 ---
 
----
-
-##   Locomotion Regimes
+## Locomotion Regimes
 
 <div align="center">
 
@@ -210,4 +208,4 @@ Benchmark comparison across commanded forward velocities. Each entry reports mea
 
 ---
 
-##   Citation
+## Citation
