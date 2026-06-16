@@ -1,10 +1,10 @@
 <div align="center">
 
-# Learning Gait-Aware Quadruped Locomotion with Temporal Logic Specifications
+<h1>Learning Gait-Aware Quadruped Locomotion with Temporal Logic Specifications</h1>
 
-**Anonymous Author(s)**
+<p><b>Anonymous Author(s)</b></p>
 
-Submitted to the 10th Conference on Robot Learning (CoRL 2026)
+<p>Submitted to the 10th Conference on Robot Learning (CoRL 2026)</p>
 
 <img src="assets/quadruped%20model.png" width="500" alt="Barkour Quadruped Model">
 
