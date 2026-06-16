@@ -40,7 +40,7 @@ We compile trajectory datasets from specialized models corresponding to low-spee
 We define fixed PSTL templates for three locomotion modes, fitting parameters using empirical quantiles from the expert datasets. 
 * **Walk-Trot:** Characterized by support-rich diagonal locomotion with no flight.
 * **Trot:** Characterized by dominant diagonal 2-contact support.
-* **Bound:** High-speed pair-synchronized running where forelegs and hind legs move in phase.
+* **Bound:** High-speed pair-synchronized running where forelegs and hind legs move in phase. For example, the bound mode actively suppresses trot-like diagonal support patterns using the formula: G<sub>W<sub>B</sub></sub>(p<sub>diag2</sub> &le; p<sub>diag2,max</sub>).
 
 ### 3. Hierarchical Reward Machine
 The final reward is derived from the quantitative robustness of the active specification over a finite horizon. The active locomotion mode g(t) &isin; {W, T, B} is selected dynamically based on the commanded forward velocity v<sub>x</sub><sup>cmd</sup>. The scalar reward aggregates safety, tracking, and gait structure robustness alongside a torque-effort penalty.
@@ -49,7 +49,7 @@ The final reward is derived from the quantitative robustness of the active speci
 
 ## Experimental Results
 
-The locomotion controller is trained using PPO within MuJoCo XLA (MJX), utilizing domain randomization over friction and actuator parameters to robustify the learned policies. 
+The locomotion controller is designed for **Google's Barkour vb quadruped robot**, modeled and trained using PPO within MuJoCo XLA (MJX). We utilize domain randomization over friction and actuator parameters to robustify the learned policies. 
 
 ### Velocity Tracking & Stability
 
