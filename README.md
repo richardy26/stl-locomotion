@@ -49,7 +49,7 @@ The final reward is derived from the quantitative robustness of the active speci
 
 ## Experimental Results
 
-The locomotion controller is designed for **Google's Barkour vb quadruped robot**, modeled and trained using PPO within MuJoCo XLA (MJX). We utilize domain randomization over friction and actuator parameters to robustify the learned policies. 
+The locomotion controller is designed for Google's Barkour vb quadruped robot, modeled and trained using PPO within MuJoCo XLA (MJX). We utilize domain randomization over friction and actuator parameters to robustify the learned policies. 
 
 ### Velocity Tracking & Stability
 
