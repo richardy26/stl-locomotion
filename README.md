@@ -2,22 +2,21 @@
 
 <h1>Learning Gait-Aware Quadruped Locomotion with Temporal Logic Specifications</h1>
 
-<p><b>Authors:</b> Anonymous Author(s)
+<p><b>Anonymous Author(s)</b></p>
 
 <p>Submitted to the 10th Conference on Robot Learning (CoRL 2026)</p>
-
 
 <img src="assets/quadruped%20model.png" width="500" alt="Barkour Quadruped Model">
 
 </div>
 
----
+<hr>
 
 ## Abstract
 
 Reinforcement learning (RL) for quadruped locomotion commonly relies on fixed, hand-crafted, and Markovian reward functions, which limit the interpretability of learned policies and provide no explicit control over gait behaviors. We introduce a framework in which distinct gaits are specified using parameterized constraints expressed in Signal Temporal Logic (STL), including safety bounds, gait synchronization constraints, command tracking objectives, and actuation limits. From these specifications, we develop a reward-shaping mechanism that provides learning agents with a dense and continuous reward landscape that encodes the desired behavior. We define parametric STL templates for three speed regimes—walking-trot, trot, and bound—calibrate their parameters from reference rollouts, and compute rewards using smooth approximations of STL robustness over these rollouts. The resulting rewards provide shaped gradients that are compatible with Proximal Policy Optimization (PPO). We instantiate the approach on Google’s Barkour quadruped robot in MuJoCo XLA (MJX), leveraging simulator parallelization to accelerate training and domain randomization to improve policy robustness. Experimental results show that, compared to conventional hand-crafted rewards, STL-shaped rewards achieve tighter velocity tracking and more stable training performance.
 
----
+<hr>
 
 ## Introduction
 
@@ -25,7 +24,7 @@ Classical model-based control approaches, such as differential dynamic programmi
 
 Our framework addresses multi-gait locomotion (walking-trot → trot → bound) by encoding desired behaviors as logical specifications. Rather than loosely coupled rewards, we utilize mode-conditioned Signal Temporal Logic (STL) templates to smoothly handle speed-dependent gait transitions and provide specification-level feedback for debugging multi-gait policies.
 
----
+<hr>
 
 ## Methodology
 
@@ -46,7 +45,7 @@ We define fixed PSTL templates for three locomotion modes, fitting parameters us
 ### 3. Hierarchical Reward Machine
 The final reward is derived from the quantitative robustness of the active specification over a finite horizon. The active locomotion mode g(t) &isin; {W, T, B} is selected dynamically based on the commanded forward velocity v<sub>x</sub><sup>cmd</sup>. The scalar reward aggregates safety, tracking, and gait structure robustness alongside a torque-effort penalty.
 
----
+<hr>
 
 ## Experimental Results
 
@@ -190,28 +189,30 @@ Benchmark comparison across commanded forward velocities. Each entry reports mea
 
 <br>
 
+* **100% Survival & Success:** The STL-based reward maintains perfect survival and command-tracking success at every tested velocity (up to 2.1 m/s).
+* **High-Speed Efficiency:** At speeds of 1.3 m/s and above, the STL policy achieves the lowest Cost of Transportation (CoT) by successfully transitioning into a mechanically suitable bound gait, whereas static heuristic baselines continue to force a less efficient trot.
 
----
+<hr>
 
 ## Locomotion Regimes
 
 <div align="center">
 
 <p><b>Walk-Trot Gait (v<sub>x</sub> = 0.4 m/s)</b></p>
-<video src="assets/0.4%20vel%20-%20walk.mp4" controls autoplay loop muted width="80%"></video>
+<video src="assets/0.4%20vel%20-%20walk.mp4" controls autoplay loop muted width="500"></video>
 
 <br>
 
 <p><b>Trot Gait (v<sub>x</sub> = 1.2 m/s)</b></p>
-<video src="assets/1.2%20vel%20-%20trot.mp4" controls autoplay loop muted width="80%"></video>
+<video src="assets/1.2%20vel%20-%20trot.mp4" controls autoplay loop muted width="500"></video>
 
 <br>
 
 <p><b>Bound Gait (v<sub>x</sub> = 1.9 m/s)</b></p>
-<video src="assets/1.9%20vel%20-%20bound.mp4" controls autoplay loop muted width="80%"></video>
+<video src="assets/1.9%20vel%20-%20bound.mp4" controls autoplay loop muted width="500"></video>
 
 </div>
 
----
+<hr>
 
 ## Citation
