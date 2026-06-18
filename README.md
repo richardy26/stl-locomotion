@@ -2,15 +2,10 @@
 
 <h1>Learning Gait-Aware Quadruped Locomotion with Temporal Logic Specifications</h1>
 
-<p><b>Authors:</b> Anonymous Author(s) | <b>Presentation By:</b> Merve Atasever</p>
+<p><b>Authors:</b> Anonymous Author(s)
 
 <p>Submitted to the 10th Conference on Robot Learning (CoRL 2026)</p>
 
-<p>
-  <b><a href="#">📄 Read Paper</a></b> | 
-  <b><a href="#">💻 View Code</a></b> | 
-  <b><a href="#">🎥 Watch Video</a></b>
-</p>
 
 <img src="assets/quadruped%20model.png" width="500" alt="Barkour Quadruped Model">
 
