@@ -188,7 +188,9 @@ Benchmark comparison across commanded forward velocities. Each entry reports mea
 
 <br>
 
-<p><b>Table 6: Evaluation under mixed velocity commands.</b> We compare the learned unified model with the heuristic-best baseline across commanded forward velocities while additionally sampling lateral-velocity and yaw-rate commands from (v<sub>y</sub><sup>*</sup> &isin; [-0.4, 0.4] m s<sup>-1</sup>) and (&omega;<sub>z</sub><sup>*</sup> &isin; [-0.4, 0.4] rad s<sup>-1</sup>), respectively. This setting evaluates robustness beyond straight-line forward locomotion. Lower CoT is better; higher survival and success rates are better.</p>
+### Evaluation under mixed velocity commands
+
+<p> We compare the learned unified model with the heuristic-best baseline across commanded forward velocities while additionally sampling lateral-velocity and yaw-rate commands from (v<sub>y</sub><sup>*</sup> &isin; [-0.4, 0.4] m s<sup>-1</sup>) and (&omega;<sub>z</sub><sup>*</sup> &isin; [-0.4, 0.4] rad s<sup>-1</sup>), respectively. This setting evaluates robustness beyond straight-line forward locomotion. Lower CoT is better; higher survival and success rates are better.</p>
 
 <table>
   <thead>
