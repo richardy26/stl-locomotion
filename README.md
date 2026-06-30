@@ -14,21 +14,19 @@
 
 ## Abstract
 
-Reinforcement learning (RL) for quadruped locomotion commonly relies on fixed, hand-crafted, and Markovian reward functions, which limit the interpretability of learned policies and provide no explicit control over gait behaviors. We introduce a framework in which distinct gaits are specified using parameterized constraints expressed in Signal Temporal Logic (STL), including safety bounds, gait synchronization constraints, command tracking objectives, and actuation limits. From these specifications, we develop a reward-shaping mechanism that provides learning agents with a dense and continuous reward landscape that encodes the desired behavior. We define parametric STL templates for three speed regimes—walking-trot, trot, and bound—calibrate their parameters from reference rollouts, and compute rewards using smooth approximations of STL robustness over these rollouts. The resulting rewards provide shaped gradients that are compatible with Proximal Policy Optimization (PPO). We instantiate the approach on Google’s Barkour quadruped robot in MuJoCo XLA (MJX), leveraging simulator parallelization to accelerate training and domain randomization to improve policy robustness. Experimental results show that, compared to conventional hand-crafted rewards, STL-shaped rewards achieve tighter velocity tracking and more stable training performance.
+Reinforcement learning (RL) for quadruped locomotion commonly relies on fixed, hand-crafted, and Markovian reward functions, which limit the interpretability of learned policies and provide no explicit control over gait behaviors. We introduce a framework in which distinct gaits are specified using parameterized constraints expressed in Signal Temporal Logic (STL), including safety bounds, gait synchronization constraints, command tracking objectives, and actuation limits. From these specifications, we develop a reward-shaping mechanism that provides learning agents with a dense and continuous reward landscape that encodes the desired behavior. We define parametric STL templates for three speed regimes (walking-trot, trot, and bound) calibrate their parameters from reference rollouts, and compute rewards using smooth approximations of STL robustness over these rollouts. The resulting rewards provide shaped gradients that are compatible with Proximal Policy Optimization (PPO). We instantiate the approach on Google’s Barkour quadruped robot in MuJoCo XLA (MJX), leveraging simulator parallelization to accelerate training and domain randomization to improve policy robustness. Experimental results show that, compared to conventional hand-crafted rewards, STL-shaped rewards achieve tighter velocity tracking and more stable training performance.
 
 <hr>
 
-## Introduction
-
-Classical model-based control approaches, such as differential dynamic programming (DDP) and model predictive control (MPC), enable impressive behaviors but rely on accurate system models and complex cost functions. Deep RL pipelines address command tracking and stability through engineered rewards, curriculum learning, and domain randomization, but these rewards are often difficult to interpret and provide indirect control over specific contact-sequence structures. 
-
-Our framework addresses multi-gait locomotion (walking-trot → trot → bound) by encoding desired behaviors as logical specifications. Rather than loosely coupled rewards, we utilize mode-conditioned Signal Temporal Logic (STL) templates to smoothly handle speed-dependent gait transitions and provide specification-level feedback for debugging multi-gait policies.
+<div align="center">
+<img src="assets/pipeline.png" width="800" alt="Algorithm Pipeline">
+</div>
 
 <hr>
 
 ## Methodology
 
-Our framework combines interpretable specification-based design with the scalability of deep RL. The reward component corresponds directly to human-readable requirements.
+Our framework aims interpretable specification-based, gait-aware reward design for quadruped locomotion tasks. The reward component corresponds directly to human-readable requirements.
 
 ### 1. Feature Extraction
 We compile trajectory datasets from specialized models corresponding to low-speed, mid-speed, and high-speed regimes. Extracted features include:
@@ -40,10 +38,10 @@ We compile trajectory datasets from specialized models corresponding to low-spee
 We define fixed PSTL templates for three locomotion modes, fitting parameters using empirical quantiles from the expert datasets. 
 * **Walk-Trot:** Characterized by support-rich diagonal locomotion with no flight.
 * **Trot:** Characterized by dominant diagonal 2-contact support.
-* **Bound:** High-speed pair-synchronized running where forelegs and hind legs move in phase. For example, the bound mode actively suppresses trot-like diagonal support patterns using the formula: G<sub>W<sub>B</sub></sub>(p<sub>diag2</sub> &le; p<sub>diag2,max</sub>).
+* **Bound:** High-speed pair-synchronized running where forelegs and hind legs move in phase.
 
 ### 3. Hierarchical Reward Machine
-The final reward is derived from the quantitative robustness of the active specification over a finite horizon. The active locomotion mode g(t) &isin; {W, T, B} is selected dynamically based on the commanded forward velocity v<sub>x</sub><sup>cmd</sup>. The scalar reward aggregates safety, tracking, and gait structure robustness alongside a torque-effort penalty.
+The final reward is derived from the quantitative robustness of the active specifications within the current temporal window. The active locomotion mode g(t) &isin; {W, T, B} is selected dynamically based on the commanded forward velocity v<sub>x</sub><sup>cmd</sup>. The scalar reward aggregates safety, tracking, and gait structure robustness alongside a torque-effort penalty.
 
 <hr>
 
@@ -189,6 +187,111 @@ Benchmark comparison across commanded forward velocities. Each entry reports mea
 
 <br>
 
+<p><b>Table 6: Evaluation under mixed velocity commands.</b> We compare the learned unified model with the heuristic-best baseline across commanded forward velocities while additionally sampling lateral-velocity and yaw-rate commands from $(v_y^* \in [-0.4, 0.4] \text{ m s}^{-1})$ and $(\omega_z^* \in [-0.4, 0.4] \text{ rad s}^{-1})$, respectively. This setting evaluates robustness beyond straight-line forward locomotion. Lower CoT is better; higher survival and success rates are better.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2">v<sub>x</sub></th>
+      <th colspan="3" align="center">STL-based unified model</th>
+      <th colspan="3" align="center">Heuristic-best</th>
+    </tr>
+    <tr>
+      <th align="center">CoT &darr;</th>
+      <th align="center">Survival &uarr;</th>
+      <th align="center">Success &uarr;</th>
+      <th align="center">CoT &darr;</th>
+      <th align="center">Survival &uarr;</th>
+      <th align="center">Success &uarr;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center">0.30</td>
+      <td align="center"><b>1.87 &plusmn; 0.06</b></td>
+      <td align="center">1.00</td>
+      <td align="center"><b>1.00</b></td>
+      <td align="center">2.55 &plusmn; 0.21</td>
+      <td align="center">1.00</td>
+      <td align="center">0.00</td>
+    </tr>
+    <tr>
+      <td align="center">0.50</td>
+      <td align="center"><b>1.46 &plusmn; 0.04</b></td>
+      <td align="center">1.00</td>
+      <td align="center"><b>1.00</b></td>
+      <td align="center">2.11 &plusmn; 0.11</td>
+      <td align="center">1.00</td>
+      <td align="center">0.35</td>
+    </tr>
+    <tr>
+      <td align="center">0.70</td>
+      <td align="center"><b>1.24 &plusmn; 0.02</b></td>
+      <td align="center">1.00</td>
+      <td align="center"><b>1.00</b></td>
+      <td align="center">1.83 &plusmn; 0.07</td>
+      <td align="center">1.00</td>
+      <td align="center"><b>1.00</b></td>
+    </tr>
+    <tr>
+      <td align="center">1.00</td>
+      <td align="center"><b>1.21 &plusmn; 0.02</b></td>
+      <td align="center">1.00</td>
+      <td align="center"><b>1.00</b></td>
+      <td align="center">1.74 &plusmn; 0.06</td>
+      <td align="center">1.00</td>
+      <td align="center"><b>1.00</b></td>
+    </tr>
+    <tr>
+      <td align="center">1.30</td>
+      <td align="center"><b>1.10 &plusmn; 0.01</b></td>
+      <td align="center">1.00</td>
+      <td align="center"><b>1.00</b></td>
+      <td align="center">1.76 &plusmn; 0.05</td>
+      <td align="center">1.00</td>
+      <td align="center"><b>1.00</b></td>
+    </tr>
+    <tr>
+      <td align="center">1.60</td>
+      <td align="center"><b>1.07 &plusmn; 0.01</b></td>
+      <td align="center">1.00</td>
+      <td align="center"><b>1.00</b></td>
+      <td align="center">1.74 &plusmn; 0.05</td>
+      <td align="center">1.00</td>
+      <td align="center"><b>1.00</b></td>
+    </tr>
+    <tr>
+      <td align="center">1.90</td>
+      <td align="center"><b>1.11 &plusmn; 0.01</b></td>
+      <td align="center">1.00</td>
+      <td align="center"><b>1.00</b></td>
+      <td align="center">1.72 &plusmn; 0.05</td>
+      <td align="center">1.00</td>
+      <td align="center">0.00</td>
+    </tr>
+    <tr>
+      <td align="center">2.00</td>
+      <td align="center"><b>1.12 &plusmn; 0.01</b></td>
+      <td align="center">1.00</td>
+      <td align="center"><b>0.80</b></td>
+      <td align="center">1.69 &plusmn; 0.06</td>
+      <td align="center">1.00</td>
+      <td align="center">0.00</td>
+    </tr>
+    <tr>
+      <td align="center">2.10</td>
+      <td align="center"><b>1.13 &plusmn; 0.01</b></td>
+      <td align="center"><b>1.00</b></td>
+      <td align="center">0.00</td>
+      <td align="center">1.69 &plusmn; 0.15</td>
+      <td align="center">0.90</td>
+      <td align="center">0.00</td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+
 <hr>
 
 ## Locomotion Regimes
@@ -212,4 +315,4 @@ Benchmark comparison across commanded forward velocities. Each entry reports mea
 
 <hr>
 
-## Citation
+## Citation dont chnage anything yet, just keep this in mind as the old webpage
